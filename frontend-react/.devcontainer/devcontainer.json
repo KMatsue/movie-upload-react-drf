@@ -1,0 +1,7 @@
+{
+  "name": "movie-upload-frontend",
+  "build": {
+    "dockerfile": "../Dockerfile"
+  },
+  "remoteUser": "node"
+}

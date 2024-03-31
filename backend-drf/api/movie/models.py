@@ -6,9 +6,18 @@ from django.db import models
 
 # Create your models here.
 
-# 参考ドキュメント:https://docs.djangoproject.com/ja/5.0/topics/auth/customizing/#a-full-example
+def load_path_video(instance, filename):
+    return '/'.join(['video', str(instance.title) + str(".mp4")])
+
+
+def load_path_thumbnail(instance, filename):
+    ext = filename.split('.')[-1]
+    return '/'.join(['thum', str(instance.title) + str(".") + str(ext)])
+
 
 class UserManager(BaseUserManager):
+    # 参考ドキュメント:
+    # https://docs.djangoproject.com/ja/5.0/topics/auth/customizing/#a-full-example
 
     def create_user(self, email, password=None, **extra_fields):
         """
@@ -49,3 +58,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class Video(models.Model):
+    id = models.UUIDField(default=uuid.uuid4,
+                          primary_key=True, editable=False)
+    title = models.CharField(max_length=30, blank=False)
+    video = models.FileField(blank=False, upload_to=load_path_video)
+    thumbnail = models.ImageField(blank=False, upload_to=load_path_thumbnail)
+    like = models.IntegerField(default=0)
+    dislike = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.title

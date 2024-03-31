@@ -5,4 +5,11 @@ USER root
 RUN apt-get update && \
     apt-get -y install --reinstall ca-certificates && \
     apt-get -y install software-properties-common && \
-    pip install --upgrade pip
+    apt-get install -y vim less && \
+    pip install --upgrade pip 
+
+WORKDIR /root
+
+COPY requirements.txt /root/
+
+RUN pip install -r /root/requirements.txt

@@ -5,26 +5,26 @@
   },
   // Configure tool-specific properties.
 	"customizations": {
-		// Configure properties specific to VS Code.
-		"vscode": {
-		// Set default container specific settings.json values on container create.
-			"settings": {
-						"pylint.args": [
-								"--load-plugins",
-								"pylint_django",
-								"--django-settings-module",
-								"config.settings.development",
-								"ms-python.python",
-								"ms-python.black-formatter",
-								"ms-python.flake8",
-								"ms-azuretools.vscode-docker"
-						],
-						"settings": {
-							// VScodeの設定を記載
-							// "files.autoSave": "afterDelay" // ファイルのオートセーブ
-							"files.autoSave": "off" // ファイルのオートセーブOFF
-						}
-				}
-		}
-}
+    "vscode": {
+      "extensions": [
+        // コンテナ作成時にインストールする拡張機能を記載
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-python.flake8",
+        "ms-azuretools.vscode-docker"
+        // "ms-toolsai.jupyter"            // jupyter拡張機能
+      ],
+      "settings": {
+        // VScodeの設定を記載
+				"pylint.args": [
+          "--load-plugins",
+          "pylint_django",
+          "--django-settings-module",
+          "config.settings.development"
+        ],
+        // "files.autoSave": "afterDelay" // ファイルのオートセーブ
+        "files.autoSave": "off" // ファイルのオートセーブOFF
+      }
+    }
+  }
 }

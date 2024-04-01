@@ -12,7 +12,7 @@ def load_path_video(instance, filename):
 
 def load_path_thumbnail(instance, filename):
     ext = filename.split('.')[-1]
-    return '/'.join(['thum', str(instance.title) + str(".") + str(ext)])
+    return '/'.join(['thumbnail', str(instance.title) + str(".") + str(ext)])
 
 
 class UserManager(BaseUserManager):

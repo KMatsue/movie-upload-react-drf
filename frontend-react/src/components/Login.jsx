@@ -1,4 +1,69 @@
+import { useReducer } from "react";
+import { withCookies } from "react-cookie";
+import {
+  START_FETCH,
+  FETCH_SUCCESS,
+  ERROR_CATCHED,
+  INPUT_EDIT,
+  TOGGLE_MODE,
+} from "./actionTypes";
+
+const initialState = {
+  isLoading: false,
+  isLoginView: true,
+  error: "",
+  credentialsLog: {
+    email: "",
+    password: "",
+  },
+};
+
+const loginReducer = (state, action) => {
+  switch (action.type) {
+    case START_FETCH: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case FETCH_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+    case ERROR_CATCHED: {
+      return {
+        ...state,
+        error: "Email or password is not correct !",
+        isLoading: false,
+      };
+    }
+    case INPUT_EDIT: {
+      return {
+        ...state,
+        //[action.inputName]: action.payload,
+        credentialsLog: {
+          ...state.credentialsLog,
+          [action.inputName]: action.payload,
+        },
+        error: "",
+      };
+    }
+    case TOGGLE_MODE: {
+      return {
+        ...state,
+        isLoginView: !state.isLoginView,
+      };
+    }
+    default:
+      return state;
+  }
+};
+
 const Login = () => {
+  const [state, dispatch] = useReducer(loginReducer, initialState);
+
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">

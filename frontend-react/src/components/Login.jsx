@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-// import { withCookies } from "react-cookie";
+import { withCookies } from "react-cookie";
 import {
   START_FETCH,
   FETCH_SUCCESS,
@@ -44,7 +44,6 @@ const loginReducer = (state, action) => {
     case INPUT_EDIT: {
       return {
         ...state,
-        //[action.inputName]: action.payload,
         credentialsLog: {
           ...state.credentialsLog,
           [action.inputName]: action.payload,
@@ -63,18 +62,18 @@ const loginReducer = (state, action) => {
   }
 };
 
-const Login = () => {
+const Login = (props) => {
   const [state, dispatch] = useReducer(loginReducer, initialState);
   const inputChangedLog = () => (event) => {
-    //const cred = state.credentialsLog;
-    //cred[event.target.name] = event.target.value;
     dispatch({
       type: INPUT_EDIT,
-      // inputName: "state.credentialLog",
-      //payload: cred,
       inputName: event.target.name,
       payload: event.target.value,
     });
+  };
+
+  const toggleView = () => {
+    dispatch({ type: TOGGLE_MODE });
   };
 
   return (
@@ -84,7 +83,7 @@ const Login = () => {
         <FaLock color="orange" className="mx-auto h-10 w-auto " />
 
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account
+          {state.isLoginView ? "Sign in" : "Sign up"} to your account
         </h2>
       </div>
 
@@ -148,25 +147,29 @@ const Login = () => {
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+              className="flex w-full justify-center rounded-md bg-orange-600
+               px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-400 
+                focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+              disabled={
+                !state.credentialsLog.password || !state.credentialsLog.email
+              }
             >
-              Sign in
+              {state.isLoginView ? "Sign in" : "Sign up"}
             </button>
           </div>
         </form>
-
         <p className="mt-10 text-center text-sm text-gray-500">
-          Not a member?
-          <a
-            href="#"
-            className="font-semibold leading-6 text-orange-600 hover:text-orange-500"
+          {state.isLoginView ? "Not a member?" : "You have an account."}
+          <span
+            className="cursor-pointer ml-2 font-semibold leading-6 text-orange-600 hover:text-orange-500"
+            onClick={() => toggleView()}
           >
-            Start a 14 day free trial
-          </a>
+            {state.isLoginView ? "Create Account" : "Back to login"}
+          </span>
         </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default withCookies(Login);

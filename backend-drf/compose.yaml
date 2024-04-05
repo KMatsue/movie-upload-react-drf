@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     command: python manage.py runserver --settings config.settings.development 0:8000
+    working_dir: /root
     volumes:
       - ./:/root
     ports:

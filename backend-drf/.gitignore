@@ -7,3 +7,4 @@ __pycache__
 *.txt
 media
 .bash_history
+.cache

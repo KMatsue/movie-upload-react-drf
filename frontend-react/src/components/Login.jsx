@@ -9,6 +9,8 @@ import {
 } from "./actionTypes";
 import CircularProgress from "./CircularProgress";
 import { FaLock } from "react-icons/fa6";
+import axios from "axios";
+import PropTypes from "prop-types";
 
 const initialState = {
   isLoading: false,
@@ -64,6 +66,7 @@ const loginReducer = (state, action) => {
 
 const Login = (props) => {
   const [state, dispatch] = useReducer(loginReducer, initialState);
+
   const inputChangedLog = () => (event) => {
     dispatch({
       type: INPUT_EDIT,
@@ -74,6 +77,56 @@ const Login = (props) => {
 
   const toggleView = () => {
     dispatch({ type: TOGGLE_MODE });
+  };
+
+  const login = async (event) => {
+    // submitイベントの本来の動作を止める(submit時の画面リロード防止)
+    event.preventDefault();
+
+    if (state.isLoginView) {
+      try {
+        dispatch({ type: START_FETCH });
+        const res = await axios.post(
+          `http://127.0.0.1:8000/auth/jwt/create/`,
+          state.credentialsLog,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        props.cookies.set("jwt-token", res.data.access);
+        res.data.access
+          ? (window.location.href = "/video")
+          : (window.location.href = "/");
+        dispatch({ type: FETCH_SUCCESS });
+      } catch {
+        dispatch({ type: ERROR_CATCHED });
+      }
+    } else {
+      try {
+        dispatch({ type: START_FETCH });
+        await axios.post(
+          `http://127.0.0.1:8000/api/video/create/`,
+          state.credentialsLog,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const res = await axios.post(
+          `http://127.0.0.1:8000/auth/jwt/create/`,
+          state.credentialsLog,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        props.cookies.set("jwt-token", res.data.access);
+        res.data.access
+          ? (window.location.href = "/video")
+          : (window.location.href = "/");
+        dispatch({ type: FETCH_SUCCESS });
+      } catch {
+        dispatch({ type: ERROR_CATCHED });
+      }
+    }
   };
 
   return (
@@ -88,7 +141,7 @@ const Login = (props) => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={() => {}}>
+        <form className="space-y-6" onSubmit={login}>
           <div>
             <label
               htmlFor="email"
@@ -104,7 +157,7 @@ const Login = (props) => {
                 value={state.credentialsLog.email}
                 onChange={inputChangedLog()}
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -134,7 +187,7 @@ const Login = (props) => {
                 value={state.credentialsLog.password}
                 onChange={inputChangedLog()}
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primeColor sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primeColor sm:text-sm sm:leading-6"
               />
             </div>
           </div>
@@ -170,6 +223,10 @@ const Login = (props) => {
       </div>
     </div>
   );
+};
+
+Login.propTypes = {
+  cookies: PropTypes.object,
 };
 
 export default withCookies(Login);

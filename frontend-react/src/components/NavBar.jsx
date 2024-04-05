@@ -1,8 +1,9 @@
 // import React from "react";
 import { FiLogOut } from "react-icons/fi";
 import { RiFolderVideoFill } from "react-icons/ri";
-import { withCookies } from "react-cookie";
-import PropTypes from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
+// import PropTypes from "prop-types";
+import { instanceOf } from "prop-types";
 
 const NavBar = (props) => {
   const Logout = () => {
@@ -24,7 +25,10 @@ const NavBar = (props) => {
     </nav>
   );
 };
+// NavBar.propTypes = {
+//   cookies: PropTypes.object,
+// };
 NavBar.propTypes = {
-  cookies: PropTypes.object,
+  cookies: instanceOf(Cookies).isRequired,
 };
 export default withCookies(NavBar);

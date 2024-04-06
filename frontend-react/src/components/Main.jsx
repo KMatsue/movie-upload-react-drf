@@ -29,6 +29,16 @@ const Main = () => {
     newVideo,
   } = useContext(ApiContext);
 
+  const handleEditVideo = () => {
+    const fileInput = document.getElementById("videoInput");
+    fileInput.click();
+  };
+
+  const handleEditPicture = () => {
+    const fileInput = document.getElementById("imageInput");
+    fileInput.click();
+  };
+
   return (
     <main className="text-center">
       <div className="grid grid-cols-12 justify-center">
@@ -52,7 +62,7 @@ const Main = () => {
         style={customStyles}
       >
         <div className="text-center">
-          <Typography>Movie title</Typography>
+          <Typography>Video title</Typography>
           <br />
           <input
             type="text"
@@ -63,12 +73,12 @@ const Main = () => {
           <br />
           <input
             type="file"
-            id="mp4Input"
+            id="videoInput"
             hidden="hidden"
             onChange={(event) => setVideo(event.target.files[0])}
           />
 
-          <IconButton variant="text" onClick={() => {}}>
+          <IconButton variant="text" onClick={handleEditVideo}>
             <FaVideo className="bg-transparent text-xl text-gray-500 m-2 cursor-pointer" />
           </IconButton>
           <input
@@ -78,7 +88,7 @@ const Main = () => {
             onChange={(event) => setThum(event.target.files[0])}
           />
 
-          <IconButton variant="text" onClick={() => {}}>
+          <IconButton variant="text" onClick={handleEditPicture}>
             <BsImages className="bg-transparent text-xl text-gray-500 m-2 cursor-pointer" />
           </IconButton>
           <br />

@@ -11,8 +11,15 @@ class UserAdmin(BaseUserAdmin):
     list_display = ["email", "username"]
     list_filter = ["is_staff", "is_active"]
     fieldsets = [
-        (None, {"fields": ["email", "password"]}),
-        ("Personal Info", {"fields": ("username",)}),
+        (
+            "Login Credentials",
+            {"fields": ("email", "password")},
+        ),
+        # (None, {"fields": ["email", "password"]}),
+        (
+            "Personal Info",
+            {"fields": ("username",)},
+        ),
         (
             "Permissions",
             {
@@ -20,10 +27,15 @@ class UserAdmin(BaseUserAdmin):
                     "is_active",
                     "is_staff",
                     "is_superuser",
+                    "groups",
+                    "user_permissions",
                 ]
             },
         ),
-        ("Important dates", {"fields": ("last_login",)}),
+        (
+            "Important dates",
+            {"fields": ("last_login",)},
+        ),
     ]
     # add_fieldsetsは標準のModelAdmin属性ではありません。
     # UserAdminはget_fieldsetsをオーバーライドして、ユーザ作成時にこの属性を使用します。

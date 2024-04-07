@@ -35,14 +35,17 @@ const ApiContextProvider = (props) => {
     const uploadData = new FormData();
     uploadData.append("title", title);
     uploadData.append("video", video, video.name);
-    uploadData.append("thum", thum, thum.name);
+    uploadData.append("thumbnail", thum, thum.name);
+    console.log(`title:${title},video:${video},thumbnail:${thum.name}`);
+    console.log(uploadData);
     try {
       const res = await axios.post(
-        "http://127.0.0.1:8000/api/videos/",
+        "http://localhost:8000/api/videos/",
         uploadData,
         {
           headers: {
-            "Content-Type": "application/json",
+            // "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: `JWT ${token}`,
           },
         }
@@ -52,8 +55,8 @@ const ApiContextProvider = (props) => {
       setTitle("");
       setVideo(null);
       setThum(null);
-    } catch {
-      console.log("error");
+    } catch (e) {
+      console.log(`error:${e}`);
     }
   };
 

@@ -2,9 +2,10 @@ import { useContext } from "react";
 import { ApiContext } from "../context/ApiContext";
 import Modal from "react-modal";
 import { Button } from "@material-tailwind/react";
-import FabIcon from "../assets/fab.svg";
-
+import { IoIosAddCircle } from "react-icons/io";
 import VideoUploadModal from "./VideoUploadModal";
+import VideoDetails from "./VideoDetails";
+import VideoList from "./VideoList";
 const Main = () => {
   Modal.setAppElement("#root");
 
@@ -14,18 +15,19 @@ const Main = () => {
     <main className="text-center">
       <div className="grid grid-cols-12 justify-center">
         <div className="col-span-12 bg-blue-gray-200">12</div>
-        <div className="col-span-1 bg-brown-300">
-          <button
-            onClick={() => setModalIsOpen(true)}
-            className="p-0 w-12 h-12 bg-red-600 rounded-full  hover:bg-red-700 active:shadow-lg mouse shadow transition ease-in duration-200 focus:outline-none"
-          >
-            <img src={FabIcon} alt="" className="" />
+        <div className="col-span-1">
+          <button onClick={() => setModalIsOpen(true)} className="">
+            <IoIosAddCircle className="w-12 h-12 rounded-full text-red-700 hover:text-red-300 active:shadow-lg mouse  " />
           </button>
         </div>
 
-        <div className="col-span-8 bg-brown-400">8</div>
+        <div className="col-span-8 bg-brown-400 bg-opacity-20">
+          <VideoDetails />
+        </div>
 
-        <div className="col-span-3 bg-brown-500">3</div>
+        <div className="col-span-3 ">
+          <VideoList />
+        </div>
       </div>
       <VideoUploadModal />
 

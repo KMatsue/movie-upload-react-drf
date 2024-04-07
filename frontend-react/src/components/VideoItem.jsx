@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { ApiContext } from "../context/ApiContext";
 
 const VideoItem = ({ video }) => {
-  console.log(video.title);
-
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg mb-2 mx-2 bg-white">
       <img className="w-full" src={video.thumbnail} alt="Sunset" />

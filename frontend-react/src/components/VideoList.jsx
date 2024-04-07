@@ -10,7 +10,9 @@ const VideoList = () => {
 
   return (
     <div className="grid ">
-      <div className="bg-gray-800">{listOfVideos}</div>
+      <div className="bg-gray-800 h-[80vh] p-2 shadow-sm overflow-hidden overflow-y-auto">
+        {listOfVideos}
+      </div>
     </div>
   );
 };

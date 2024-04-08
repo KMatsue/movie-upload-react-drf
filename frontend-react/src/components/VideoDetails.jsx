@@ -16,6 +16,7 @@ const VideoDetails = () => {
         <p className="">動画を選択してください</p>
       </div>
     );
+  console.log(selectedVideo.video);
   return (
     <>
       <div className="text-center m-2">

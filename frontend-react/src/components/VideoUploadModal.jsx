@@ -5,7 +5,6 @@ import { RiUploadCloud2Line } from "react-icons/ri";
 import { FaVideo } from "react-icons/fa";
 import { BsImages } from "react-icons/bs";
 import { ApiContext } from "../context/ApiContext";
-import { SpeedDialHandler } from "@material-tailwind/react";
 
 const VideoUploadModal = () => {
   Modal.setAppElement("#root");

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { ApiContext } from "../context/ApiContext";
 import ReactPlayer from "react-player";
 import { AiFillLike } from "react-icons/ai";
@@ -8,22 +8,24 @@ import { MdDeleteForever } from "react-icons/md";
 const VideoDetails = () => {
   const { selectedVideo, deleteVideo, incrementLike, incrementDislike } =
     useContext(ApiContext);
+  const player = useRef(null);
 
   if (!selectedVideo)
     return (
-      <div className="container">
+      <div className="flex h-full justify-center items-center">
         <p className="">動画を選択してください</p>
       </div>
     );
   return (
     <>
-      <div className="text-center">
+      <div className="text-center m-2">
         <ReactPlayer
-          className="player"
           url={selectedVideo.video}
+          ref={player}
+          volume={0.5}
           width="100%"
           height="100%"
-          playing
+          // playing
           controls
           disablePictureInPicture
           config={{
@@ -36,16 +38,24 @@ const VideoDetails = () => {
           }}
         />
       </div>
-      <div className="grid grid-cols-12 justify-center">
-        <h6 className="col-span-10 "> {selectedVideo.title}</h6>
-        <div className="col-span-1 bg-blue-gray-200">
-          <button className="like" onClick={() => incrementLike()}>
+      <div className="grid grid-cols-12 justify-center m-2">
+        <h6 className="col-span-10 text-left font-semibold">
+          {selectedVideo.title}
+        </h6>
+        <div className="col-span-1">
+          <button
+            className="text-primeColor size-5"
+            onClick={() => incrementLike()}
+          >
             <AiFillLike />
             {selectedVideo.like}
           </button>
         </div>
-        <div className="col-span-1 bg-blue-gray-300">
-          <button className="like" onClick={() => incrementDislike()}>
+        <div className="col-span-1 size-5 ">
+          <button
+            className="text-primeColor"
+            onClick={() => incrementDislike()}
+          >
             <AiFillDislike />
             {selectedVideo.dislike}
           </button>

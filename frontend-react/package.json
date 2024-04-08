@@ -12,6 +12,7 @@
   "dependencies": {
     "@material-tailwind/react": "^2.1.9",
     "axios": "^1.6.8",
+    "bytes": "^3.1.2",
     "react": "^18.2.0",
     "react-cookie": "^7.1.4",
     "react-dom": "^18.2.0",

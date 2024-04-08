@@ -35,8 +35,12 @@ const ApiContextProvider = (props) => {
     const uploadData = new FormData();
     uploadData.append("title", title);
     uploadData.append("video", video, video.name);
+    uploadData.append("size", video.size);
     uploadData.append("thumbnail", thum, thum.name);
-    console.log(`title:${title},video:${video},thumbnail:${thum.name}`);
+    console.log(
+      `title:${title},video:${video},size:${video.size},thumbnail:${thum.name}`,
+      typeof video.size
+    );
     console.log(uploadData);
     try {
       const res = await axios.post(

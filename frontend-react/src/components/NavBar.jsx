@@ -18,8 +18,9 @@ const NavBar = (props) => {
           <RiFolderVideoFill className="text-2xl mr-1" />
           <span className="text-2xl font-bold font-comic">Video-UP</span>
         </button>
-        <button onClick={() => Logout()}>
-          <FiLogOut className="text-2xl" />
+        <button onClick={() => Logout()} className="flex items-center">
+          <FiLogOut className="text-xl" />
+          <span className="">ログアウト</span>
         </button>
       </div>
     </nav>

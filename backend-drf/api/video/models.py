@@ -19,7 +19,8 @@ def load_path_thumbnail(instance, filename):
 
 class Video(models.Model):
     id = models.UUIDField('id', default=uuid.uuid4, primary_key=True, editable=False)
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='投稿者', related_name='userVideo', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name='投稿者', on_delete=models.CASCADE)
+    # related_name='userVideo',
     title = models.CharField('タイトル', max_length=30, blank=False)
     video = models.FileField('動画', blank=False, upload_to=load_path_video)
     thumbnail = models.ImageField('サムネイル', blank=False, upload_to=load_path_thumbnail)

@@ -6,5 +6,6 @@ from .serializers import UserSerializer
 
 
 class CreateUserView(generics.CreateAPIView):
+    '''createに特化したAPIView'''
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)

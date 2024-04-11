@@ -93,7 +93,7 @@ class Profile(models.Model):
     gendar = models.CharField("性別", max_length=2, choices=GENDER_CHOICES, blank=True)
 
     def __str__(self):
-        return str(self.user.id)
+        return str(self.user.username)
 
 
 @receiver(post_save, sender=User)

@@ -227,9 +227,7 @@ const Login = (props) => {
                px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-400 
                focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 aria-disabled:bg-gray-500"
               disabled={
-                !state.credentialsLog.username ||
-                !state.credentialsLog.password ||
-                !state.credentialsLog.email
+                !state.credentialsLog.password || !state.credentialsLog.email
               }
             >
               {state.isLoginView ? "Sign in" : "Sign up"}

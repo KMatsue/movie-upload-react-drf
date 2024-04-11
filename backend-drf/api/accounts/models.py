@@ -4,9 +4,12 @@ from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
     PermissionsMixin,
-)
-from django.db import models
 
+)
+from django.utils import timezone
+from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -41,11 +44,13 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    email = models.EmailField(max_length=255, unique=True)
-    username = models.CharField(max_length=255, blank=True)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
+    username = models.CharField('会社名', max_length=255, blank=True)
+    email = models.EmailField('メールアドレス', max_length=255, unique=True)
+    is_active = models.BooleanField('有効フラグ', default=True)
+    is_staff = models.BooleanField('管理サイトアクセス権限', default=False)
+    date_joined = models.DateTimeField('登録日時', default=timezone.now)
 
     objects = UserManager()
 
@@ -53,3 +58,50 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class Plan(models.IntegerChoices):
+    """
+    プラン
+    """
+
+    FREE = 1, "無料"
+    STANDARD = 2, "スタンダード"
+    PREMIUM = 3, "プレミアム"
+
+
+class Profile(models.Model):
+
+    GENDER_CHOICES = (
+        ("女性", "女性"),
+        ("男性", "男性"),
+    )
+    # PLAN_CHOICES = (
+    #     ('1', 'Free'),
+    #     ('2', 'Standard'),
+    #     ('3', 'Premium'),
+    # )
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    company_name = models.CharField('会社名', max_length=255, blank=True)
+    plan = models.IntegerField('プラン', choices=Plan.choices, default=1)
+    occupation = models.CharField('職業', max_length=50, blank=True)
+    address = models.CharField('住所', max_length=255, blank=True)
+    phone = models.CharField("電話番号", max_length=255, blank=True)
+    age = models.CharField('年齢', max_length=255, blank=True)
+    gendar = models.CharField("性別", max_length=2, choices=GENDER_CHOICES, blank=True)
+
+    def __str__(self):
+        return str(self.user.id)
+
+
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    """ User新規作成時にProfileのレコードも作成する """
+    if created:
+        Profile.objects.get_or_create(user=instance)
+
+
+# @receiver(post_save, sender=User)
+# def save_profile(sender, instance, **kwargs):
+#     instance.profile.save()

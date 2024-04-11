@@ -1,7 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from .models import User
+from .models import User, Profile
+
+
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    max_num = 1
+    can_delete = False
 
 
 class UserAdmin(BaseUserAdmin):
@@ -49,6 +55,8 @@ class UserAdmin(BaseUserAdmin):
         ),
     ]
     search_fields = ["email", "username"]
+
+    inlines = [ProfileInline]
 
 
 admin.site.register(User, UserAdmin)

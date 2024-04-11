@@ -39,7 +39,9 @@ const loginReducer = (state, action) => {
     case ERROR_CATCHED: {
       return {
         ...state,
-        error: "Email or password is not correct !",
+        error: state.isLoginView
+          ? "Email or password is not correct!"
+          : "CompanyName, Email or password is not correct !",
         isLoading: false,
       };
     }
@@ -157,6 +159,7 @@ const Login = (props) => {
                   type="username"
                   value={state.credentialsLog.username}
                   onChange={inputChangedLog()}
+                  required
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -222,9 +225,11 @@ const Login = (props) => {
               type="submit"
               className="flex w-full justify-center rounded-md bg-orange-600
                px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-400 
-                focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+               focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600 aria-disabled:bg-gray-500"
               disabled={
-                !state.credentialsLog.password || !state.credentialsLog.email
+                !state.credentialsLog.username ||
+                !state.credentialsLog.password ||
+                !state.credentialsLog.email
               }
             >
               {state.isLoginView ? "Sign in" : "Sign up"}

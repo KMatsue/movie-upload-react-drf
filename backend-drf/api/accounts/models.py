@@ -18,24 +18,24 @@ class UserManager(BaseUserManager):
     # 参考ドキュメント:
     # https://docs.djangoproject.com/ja/5.0/topics/auth/customizing/#a-full-example
 
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, username, email, password=None, **extra_fields):
         """
         Creates and saves a User with the given email and password.
         """
         if not email:
             raise ValueError("Email address is must")
 
-        user = self.model(email=self.normalize_email(email), **extra_fields)
+        user = self.model(username=username, email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
 
         return user
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, username, email, password):
         """
         Creates and saves a superuser with the given email, and password.
         """
-        user = self.create_user(email, password)
+        user = self.create_user(username, email, password)
         user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
@@ -55,6 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
         return self.email

@@ -30,3 +30,10 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+""" Django 管理サイト名変更 """
+admin.site.site_header = 'Video Up 管理サイト'
+
+""" サイト管理名変更 """
+# admin.site.index_title = 'テーブル'

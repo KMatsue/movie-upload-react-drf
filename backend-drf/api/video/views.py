@@ -15,21 +15,25 @@ class VideoViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         # ログインしているユーザー情報をuser属性に格納する
         serializer.validated_data["user"] = self.request.user
-        # serializer.save(user=self.request.user)
-        return serializer.save()
+        serializer.save()
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        video = self.perform_create(serializer)
+        self.perform_create(serializer)
 
-        # サムネイル生成処理
+        video_object = serializer.instance  # 保存された動画オブジェクトを取得
+
         try:
-            thumbnail_path, thumbnail_file = generate_thumbnail(video.video)
+            # サムネイル生成処理
+            thumbnail_path, thumbnail_file = generate_thumbnail(video_object.video)
+
+            # サムネイルが生成された場合のみ保存
             if thumbnail_path and thumbnail_file:
-                video.thumbnail.save(thumbnail_path, thumbnail_file, save=False)
-                video.save()
+                # サムネイルを保存
+                video_object.thumbnail.save(thumbnail_path, thumbnail_file, save=False)
+                video_object.save()
                 print("サムネイルの保存に成功しました")
             else:
                 print("サムネイルの生成に失敗しました")

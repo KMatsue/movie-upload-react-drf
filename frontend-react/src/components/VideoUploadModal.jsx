@@ -77,7 +77,7 @@ const VideoUploadModal = () => {
             <p className="">動画ファイルを選択</p>
           </div>
           <br />
-          <div
+          {/* <div
             onClick={handleEditPicture}
             className="flex items-center mx-2 bg-transparent text-gray-500 hover:bg-gray-200 cursor-pointer"
           >
@@ -93,8 +93,9 @@ const VideoUploadModal = () => {
             <p className="">画像ファイルを選択</p>
             <br />
           </div>
-          <br />
-          {title && video && thum && (
+          <br /> */}
+          {/* {title && video && thum && ( */}
+          {title && video && (
             <div
               onClick={() => newVideo()}
               className="flex items-center mx-2 bg-transparent text-gray-500 hover:bg-gray-200 cursor-pointer"

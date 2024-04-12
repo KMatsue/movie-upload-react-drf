@@ -36,9 +36,9 @@ const ApiContextProvider = (props) => {
     uploadData.append("title", title);
     uploadData.append("video", video, video.name);
     uploadData.append("size", video.size);
-    uploadData.append("thumbnail", thum, thum.name);
+    // uploadData.append("thumbnail", thum, thum.name);
     console.log(
-      `title:${title},video:${video},size:${video.size},thumbnail:${thum.name}`,
+      `title:${title},video:${video},size:${video.size},`,
       typeof video.size
     );
     console.log(uploadData);

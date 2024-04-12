@@ -8,6 +8,16 @@ class VideoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Video
-        fields = "__all__"
+        # fields = "__all__"
+        fields = (
+            "id",
+            "user",
+            "title",
+            "video",
+            "thumbnail",
+            "size",
+            "created_at",
+            "updated_at",
+        )
         read_only_fields = ("user", "created_at", "updated_at")
         # extra_kwargs = {"user": {'read_only': True}}

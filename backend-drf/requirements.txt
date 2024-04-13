@@ -6,12 +6,15 @@ cryptography==42.0.5
 defusedxml==0.8.0rc2
 Django==5.0.3
 django-cors-headers==4.3.1
+django-jazzmin==2.6.1
 django-templated-mail==1.1.1
 djangorestframework==3.15.1
 djangorestframework-simplejwt==5.3.1
 djoser==2.2.2
 idna==3.6
+numpy==1.26.4
 oauthlib==3.2.2
+opencv-python==4.9.0.80
 pillow==10.2.0
 pycparser==2.22
 PyJWT==2.8.0

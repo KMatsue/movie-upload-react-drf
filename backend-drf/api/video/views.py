@@ -44,3 +44,7 @@ class VideoViewSet(viewsets.ModelViewSet):
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
+
+    def get_queryset(self):
+        # ログインしているユーザーに紐づいている投稿のみを取得
+        return self.queryset.filter(user=self.request.user)

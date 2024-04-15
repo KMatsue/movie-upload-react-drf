@@ -1,14 +1,22 @@
 // import React from "react";
 import { FiLogOut } from "react-icons/fi";
 import { RiFolderVideoFill } from "react-icons/ri";
-import { withCookies, Cookies } from "react-cookie";
+// import { withCookies, Cookies } from "react-cookie";
 // import PropTypes from "prop-types";
 import { instanceOf } from "prop-types";
-
-const NavBar = (props) => {
-  const Logout = () => {
-    props.cookies.remove("jwt-token");
-    window.location.href = "/";
+import axios from "axios";
+const NavBar = () => {
+  const Logout = async () => {
+    // props.cookies.remove("jwt-token");
+    const res = await axios.post("http://127.0.0.1:8000/api/auth/logout/", "", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
+    res.status == 200
+      ? (window.location.href = "/")
+      : (window.location.href = "/video");
   };
 
   return (
@@ -29,7 +37,7 @@ const NavBar = (props) => {
 // NavBar.propTypes = {
 //   cookies: PropTypes.object,
 // };
-NavBar.propTypes = {
-  cookies: instanceOf(Cookies).isRequired,
-};
-export default withCookies(NavBar);
+// NavBar.propTypes = {
+//   cookies: instanceOf(Cookies).isRequired,
+// };
+export default NavBar;

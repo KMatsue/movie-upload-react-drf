@@ -24,16 +24,16 @@ from django.conf import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/videos/", include("api.video.urls")),
-    path("api/accounts/", include("api.accounts.urls")),
-    path("api/auth/", include("djoser.urls")),
-    path("auth/", include("djoser.urls.jwt")),
+    path("api/", include("api.accounts.urls")),
+    # path("api/accounts/auth/", include("djoser.urls")),
+    # path("auth/", include("djoser.urls.jwt")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 """ Django 管理サイト名変更 """
-admin.site.site_header = 'Video Up 管理サイト'
+admin.site.site_header = "Video Up 管理サイト"
 
 """ サイト管理名変更 """
 # admin.site.index_title = 'テーブル'

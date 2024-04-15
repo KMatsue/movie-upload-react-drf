@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { withCookies } from "react-cookie";
+// import { withCookies } from "react-cookie";
 import {
   START_FETCH,
   FETCH_SUCCESS,
@@ -10,7 +10,15 @@ import {
 import CircularProgress from "./CircularProgress";
 import { FaLock } from "react-icons/fa6";
 import axios from "axios";
-import PropTypes from "prop-types";
+import { RiContactsBookLine } from "react-icons/ri";
+// import PropTypes from "prop-types";
+
+const BACKEND_DOMAIN = "http://127.0.0.1:8000";
+
+const REGISTER_URL = `${BACKEND_DOMAIN}/api/auth/users/`;
+const LOGIN_URL = `${BACKEND_DOMAIN}/api/auth/jwt/create/`;
+const LOGOUT_URL = `${BACKEND_DOMAIN}/api/auth/logout/`;
+const REFRESH_URL = `${BACKEND_DOMAIN}/api/auth/jwt/refresh/`;
 
 const initialState = {
   isLoading: false,
@@ -66,7 +74,7 @@ const loginReducer = (state, action) => {
   }
 };
 
-const Login = (props) => {
+const Login = () => {
   const [state, dispatch] = useReducer(loginReducer, initialState);
 
   const inputChangedLog = () => (event) => {
@@ -88,15 +96,13 @@ const Login = (props) => {
     if (state.isLoginView) {
       try {
         dispatch({ type: START_FETCH });
-        const res = await axios.post(
-          `http://127.0.0.1:8000/auth/jwt/create/`,
-          state.credentialsLog,
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-        props.cookies.set("jwt-token", res.data.access);
-        res.data.access
+        const res = await axios.post(LOGIN_URL, state.credentialsLog, {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        });
+        // props.cookies.set("access", res.data.access);
+        console.log(res);
+        res.status == 200
           ? (window.location.href = "/video")
           : (window.location.href = "/");
         dispatch({ type: FETCH_SUCCESS });
@@ -106,22 +112,15 @@ const Login = (props) => {
     } else {
       try {
         dispatch({ type: START_FETCH });
-        await axios.post(
-          `http://127.0.0.1:8000/api/accounts/create/`,
-          state.credentialsLog,
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-        const res = await axios.post(
-          `http://127.0.0.1:8000/auth/jwt/create/`,
-          state.credentialsLog,
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-        props.cookies.set("jwt-token", res.data.access);
-        res.data.access
+        await axios.post(REGISTER_URL, state.credentialsLog, {
+          headers: { "Content-Type": "application/json" },
+        });
+        const res = await axios.post(LOGIN_URL, state.credentialsLog, {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        });
+        // props.cookies.set("access", res.data.access);
+        res.status == 200
           ? (window.location.href = "/video")
           : (window.location.href = "/");
         dispatch({ type: FETCH_SUCCESS });
@@ -248,8 +247,8 @@ const Login = (props) => {
   );
 };
 
-Login.propTypes = {
-  cookies: PropTypes.object,
-};
+// Login.propTypes = {
+//   cookies: PropTypes.object,
+// };
 
-export default withCookies(Login);
+export default Login;

@@ -6,9 +6,12 @@ from .utils import generate_thumbnail
 
 from rest_framework import status
 from rest_framework.response import Response
+from api.accounts.authentication import CustomJWTAuthentication
 
 
 class VideoViewSet(viewsets.ModelViewSet):
+
+    # authentication_classes = [CustomJWTAuthentication]
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
 

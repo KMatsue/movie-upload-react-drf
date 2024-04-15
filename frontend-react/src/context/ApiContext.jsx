@@ -1,35 +1,45 @@
 import { createContext, useState, useEffect } from "react";
 import { instanceOf } from "prop-types";
-import { withCookies, Cookies } from "react-cookie";
+import { withCookies, Cookies, useCookies } from "react-cookie";
 import axios from "axios";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 export const ApiContext = createContext();
 
-const ApiContextProvider = (props) => {
-  const token = props.cookies.get("jwt-token");
+const ApiContextProvider = ({ children }) => {
+  // const [cookies, setCookie, removeCookie] = useCookies(["access"]);
+  // const token = props.cookies.get("access");
+  // const token = cookies.access;
   const [videos, setVideos] = useState([]);
   const [title, setTitle] = useState("");
   const [video, setVideo] = useState(null);
   const [thum, setThum] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const axios_instance = axios.create({
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
+  // console.log(token);
   useEffect(() => {
+    // console.log(token);
     const getVideos = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/videos/", {
+        const res = await axios.get("http://127.0.0.1:8000/api/videos/", {
           headers: {
-            Authorization: `JWT ${token}`,
+            "Content-Type": "application/json",
           },
+          withCredentials: true,
         });
         setVideos(res.data);
-      } catch {
-        console.log("error");
+      } catch (e) {
+        console.log("error", e);
       }
     };
     getVideos();
-  }, [token]);
+  }, []);
 
   const newVideo = async () => {
     const uploadData = new FormData();
@@ -44,14 +54,13 @@ const ApiContextProvider = (props) => {
     console.log(uploadData);
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/videos/",
+        "http://127.0.0.1:8000/api/videos/",
         uploadData,
         {
           headers: {
-            // "Content-Type": "application/json",
             "Content-Type": "multipart/form-data",
-            Authorization: `JWT ${token}`,
           },
+          withCredentials: true,
         }
       );
       setVideos([...videos, res.data]);
@@ -71,8 +80,9 @@ const ApiContextProvider = (props) => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `JWT ${token}`,
+            // Authorization: `JWT ${token}`,
           },
+          withCredentials: true,
         }
       );
       setSelectedVideo(null);
@@ -93,8 +103,9 @@ const ApiContextProvider = (props) => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `JWT ${token}`,
+            // Authorization: `JWT ${token}`,
           },
+          withCredentials: true,
         }
       );
       setSelectedVideo({ ...selectedVideo, like: res.data.like });
@@ -116,8 +127,9 @@ const ApiContextProvider = (props) => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `JWT ${token}`,
+            // Authorization: `JWT ${token}`,
           },
+          withCredentials: true,
         }
       );
       setSelectedVideo({ ...selectedVideo, dislike: res.data.dislike });
@@ -149,14 +161,14 @@ const ApiContextProvider = (props) => {
         incrementDislike,
       }}
     >
-      {props.children}
+      {children}
     </ApiContext.Provider>
   );
 };
 
-ApiContextProvider.propTypes = {
-  cookies: instanceOf(Cookies).isRequired,
-  children: PropTypes.object,
-};
+// ApiContextProvider.propTypes = {
+//   cookies: instanceOf(Cookies).isRequired,
+//   children: PropTypes.object,
+// };
 
-export default withCookies(ApiContextProvider);
+export default ApiContextProvider;

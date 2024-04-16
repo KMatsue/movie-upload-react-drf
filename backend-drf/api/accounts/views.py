@@ -6,6 +6,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .serializers import UserSerializer
+from rest_framework_simplejwt.exceptions import TokenError
 
 
 class CreateUserView(generics.CreateAPIView):
@@ -13,6 +14,14 @@ class CreateUserView(generics.CreateAPIView):
 
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)
+
+
+class ManageUserView(generics.RetrieveUpdateAPIView):
+    serializer_class = UserSerializer
+
+    # ログインしているユーザ情報を返す
+    def get_object(self):
+        return self.request.user
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -45,18 +54,23 @@ class CustomTokenRefreshView(TokenRefreshView):
     """
 
     def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        if response.status_code == 200:
-            refresh_token = response.data["refresh"]
-            access_token = response.data["access"]
-            # response = JsonResponse({"refresh": refresh_token, "access": access_token})
-            response.set_cookie(
-                "access", access_token, httponly=True, max_age=3600
-            )  # 1 hour
-            response.set_cookie(
-                "refresh", refresh_token, httponly=True, max_age=3600 * 24 * 7
-            )  # 1 week
-        return response
+        cookie_refresh_token = request.COOKIES.get("refresh")
+        if cookie_refresh_token is None:
+            return Response({"detail": "Refresh token is missing."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            request.data["refresh"] = cookie_refresh_token
+
+            response = super().post(request, *args, **kwargs)
+
+            if response.status_code == 200:
+                access_token = response.data["access"]
+                response.set_cookie(
+                    "access", access_token, httponly=True, max_age=3600
+                )  # 1 hour
+
+            return response
+        except TokenError:
+            return Response({"detail": "Invalid refresh token."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LogoutView(APIView):

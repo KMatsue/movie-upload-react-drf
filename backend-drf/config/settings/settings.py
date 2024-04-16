@@ -148,6 +148,10 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'AUTH_TOKEN_CLASSES': (
+        'rest_framework_simplejwt.tokens.AccessToken',
+    ),
 }
 
 DJOSER = {
@@ -170,6 +174,10 @@ LOGGING = {
         }
     },
     "loggers": {
+        # "django": {
+        #     "level": "DEBUG",
+        #     "handlers": ["console"],
+        # },
         "django.db.backends": {
             "level": "DEBUG",
             "handlers": ["console"],

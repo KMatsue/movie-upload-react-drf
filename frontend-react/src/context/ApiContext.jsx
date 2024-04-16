@@ -1,30 +1,17 @@
 import { createContext, useState, useEffect } from "react";
-import { instanceOf } from "prop-types";
-import { withCookies, Cookies, useCookies } from "react-cookie";
 import axios from "axios";
-// import PropTypes from "prop-types";
 
 export const ApiContext = createContext();
 
 const ApiContextProvider = ({ children }) => {
-  // const [cookies, setCookie, removeCookie] = useCookies(["access"]);
-  // const token = props.cookies.get("access");
-  // const token = cookies.access;
   const [videos, setVideos] = useState([]);
   const [title, setTitle] = useState("");
   const [video, setVideo] = useState(null);
   const [thum, setThum] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const axios_instance = axios.create({
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
 
-  // console.log(token);
   useEffect(() => {
-    // console.log(token);
     const getVideos = async () => {
       try {
         const res = await axios.get("http://127.0.0.1:8000/api/videos/", {
@@ -80,7 +67,6 @@ const ApiContextProvider = ({ children }) => {
         {
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `JWT ${token}`,
           },
           withCredentials: true,
         }
@@ -103,7 +89,6 @@ const ApiContextProvider = ({ children }) => {
         {
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `JWT ${token}`,
           },
           withCredentials: true,
         }
@@ -127,7 +112,6 @@ const ApiContextProvider = ({ children }) => {
         {
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `JWT ${token}`,
           },
           withCredentials: true,
         }
@@ -165,10 +149,5 @@ const ApiContextProvider = ({ children }) => {
     </ApiContext.Provider>
   );
 };
-
-// ApiContextProvider.propTypes = {
-//   cookies: instanceOf(Cookies).isRequired,
-//   children: PropTypes.object,
-// };
 
 export default ApiContextProvider;

@@ -103,8 +103,8 @@ const Login = () => {
         // props.cookies.set("access", res.data.access);
         console.log(res);
         res.status == 200
-          ? (window.location.href = "/video")
-          : (window.location.href = "/");
+          ? (window.location.href = "/")
+          : (window.location.href = "/login");
         dispatch({ type: FETCH_SUCCESS });
       } catch {
         dispatch({ type: ERROR_CATCHED });
@@ -121,8 +121,8 @@ const Login = () => {
         });
         // props.cookies.set("access", res.data.access);
         res.status == 200
-          ? (window.location.href = "/video")
-          : (window.location.href = "/");
+          ? (window.location.href = "/")
+          : (window.location.href = "/login");
         dispatch({ type: FETCH_SUCCESS });
       } catch {
         dispatch({ type: ERROR_CATCHED });

@@ -3,11 +3,10 @@ import { FiLogOut } from "react-icons/fi";
 import { RiFolderVideoFill } from "react-icons/ri";
 // import { withCookies, Cookies } from "react-cookie";
 // import PropTypes from "prop-types";
-import { instanceOf } from "prop-types";
+// import { instanceOf } from "prop-types";
 import axios from "axios";
 const NavBar = () => {
   const Logout = async () => {
-    // props.cookies.remove("jwt-token");
     const res = await axios.post("http://127.0.0.1:8000/api/auth/logout/", "", {
       headers: {
         "Content-Type": "application/json",
@@ -15,8 +14,8 @@ const NavBar = () => {
       withCredentials: true,
     });
     res.status == 200
-      ? (window.location.href = "/")
-      : (window.location.href = "/video");
+      ? (window.location.href = "/login")
+      : (window.location.href = "/");
   };
 
   return (

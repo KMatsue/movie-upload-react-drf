@@ -11,8 +11,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <CookiesProvider>
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Login />} />
-          <Route exact path="/video" element={<App />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/" element={<App />} />
         </Routes>
       </BrowserRouter>
     </CookiesProvider>

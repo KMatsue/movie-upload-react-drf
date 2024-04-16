@@ -1,10 +1,9 @@
 // import React from "react";
 import { FiLogOut } from "react-icons/fi";
 import { RiFolderVideoFill } from "react-icons/ri";
-// import { withCookies, Cookies } from "react-cookie";
-// import PropTypes from "prop-types";
-// import { instanceOf } from "prop-types";
-import axios from "axios";
+
+import axios from "../plugins/axios";
+
 const NavBar = () => {
   const Logout = async () => {
     const res = await axios.post("http://127.0.0.1:8000/api/auth/logout/", "", {
@@ -33,10 +32,5 @@ const NavBar = () => {
     </nav>
   );
 };
-// NavBar.propTypes = {
-//   cookies: PropTypes.object,
-// };
-// NavBar.propTypes = {
-//   cookies: instanceOf(Cookies).isRequired,
-// };
+
 export default NavBar;

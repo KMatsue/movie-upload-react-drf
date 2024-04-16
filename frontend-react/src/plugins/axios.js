@@ -45,7 +45,7 @@ axios_instance.interceptors.response.use(
       axios_instance
         .post("http://127.0.0.1:8000/api/auth/jwt/refresh/", { refresh: "" })
         .then((response) => {
-          if (response.status === 200) window.location.href = "/";
+          if (response.status === 200) window.location.reload();
           return axios_instance(originalConfig);
         })
         .catch(function (error) {

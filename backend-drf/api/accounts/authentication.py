@@ -8,7 +8,7 @@ class CustomJWTAuthentication(JWTAuthentication):
         token = request.COOKIES.get("access")
 
         request.META["HTTP_AUTHORIZATION"] = "{header_type} {access_token}".format(
-            header_type="JWT", access_token=token
+            header_type="Bearer", access_token=token
         )
 
         print(f'access:{token}')

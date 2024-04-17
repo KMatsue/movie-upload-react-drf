@@ -3,7 +3,7 @@ from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from .serializers import UserSerializer
 from rest_framework_simplejwt.exceptions import TokenError
@@ -35,7 +35,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         if response.status_code == status.HTTP_200_OK:
             access_token = response.data["access"]
             refresh_token = response.data["refresh"]
-            response = Response(status=status.HTTP_200_OK)
+            # response = Response(status=status.HTTP_200_OK)
             print(response.data)
             response.set_cookie(
                 "access", access_token, httponly=True, max_age=3600
@@ -71,6 +71,19 @@ class CustomTokenRefreshView(TokenRefreshView):
             return response
         except TokenError:
             return Response({"detail": "Invalid refresh token."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CustomTokenVerifyView(TokenVerifyView):
+    """
+    ユーザーの認証情報を受け取り、アクセストークンが有効かを確認します
+    """
+
+    def post(self, request, *args, **kwargs):
+        request.data['token'] = request.COOKIES.get('access')
+
+        response = super().post(request, *args, **kwargs)
+
+        return response
 
 
 class LogoutView(APIView):

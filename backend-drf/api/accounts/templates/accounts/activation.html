@@ -1,0 +1,18 @@
+{% block subject %}
+Video-UP 本登録のご案内
+{% endblock subject %}
+
+{% block text_body %}
+{{username}}様
+
+Video-UPにご登録いただき、ありがとうございます。
+
+以下のリンクから本登録を完了してください。
+{{ protocol }}://{{ domain }}/{{ url|safe }}
+
+
+***********************************
+発行元：Video-UP
+***********************************
+
+{% endblock text_body %}

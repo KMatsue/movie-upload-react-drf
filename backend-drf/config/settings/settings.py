@@ -175,7 +175,7 @@ DJOSER = {
     },
 
     'EMAIL': {
-        'activation': 'djoser.email.ActivationEmail',
+        'activation': 'api.accounts.email.ActivationEmail',
         'confirmation': 'djoser.email.ConfirmationEmail',
         'password_reset': 'djoser.email.PasswordResetEmail',
         'password_changed_confirmation': 'djoser.email.PasswordChangedConfirmationEmail',
@@ -196,7 +196,7 @@ EMAIL_HOST_USER = 'xxx@gmail.com'
 EMAIL_HOST_PASSWORD = 'xxx'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'xxx@gmail.com'
+DEFAULT_FROM_EMAIL = 'xxx@video-up.com'
 
 
 LOGGING = {

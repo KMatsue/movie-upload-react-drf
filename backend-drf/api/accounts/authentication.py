@@ -10,6 +10,8 @@ class CustomJWTAuthentication(JWTAuthentication):
         request.META["HTTP_AUTHORIZATION"] = "{header_type} {access_token}".format(
             header_type="Bearer", access_token=token
         )
+        if token is None:
+            return None
 
         print(f'access:{token}')
         # refresh = request.COOKIES.get("refresh")

@@ -176,11 +176,11 @@ DJOSER = {
 
     'EMAIL': {
         'activation': 'api.accounts.email.ActivationEmail',
-        'confirmation': 'djoser.email.ConfirmationEmail',
-        'password_reset': 'djoser.email.PasswordResetEmail',
-        'password_changed_confirmation': 'djoser.email.PasswordChangedConfirmationEmail',
-        'username_changed_confirmation': 'djoser.email.UsernameChangedConfirmationEmail',
-        'username_reset': 'djoser.email.UsernameResetEmail',
+        'confirmation': 'api.accounts.email.ConfirmationEmail',
+        'password_reset': 'api.accounts.email.PasswordResetEmail',
+        'username_reset': 'api.accounts.email.UsernameResetEmail',
+        'password_changed_confirmation': 'api.accounts.email.PasswordChangedConfirmationEmail',
+        'username_changed_confirmation': 'api.accounts.email.UsernameChangedConfirmationEmail',
     },
 
 }

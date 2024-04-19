@@ -1,0 +1,19 @@
+{% block subject %}
+Video-UP メールアドレスリセット
+{% endblock subject %}
+
+{% block text_body %}
+{{username}}様
+
+Video-UPをご利用いただき、ありがとうございます。
+メールアドレスリセットのリクエストが行われました。
+
+以下のリンクからメールアドレスの再設定を行ってください。
+{{ protocol }}://{{ domain }}/{{ url|safe }}
+
+
+***********************************
+発行元 : Video-UP
+***********************************
+
+{% endblock text_body %}

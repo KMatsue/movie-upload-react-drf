@@ -106,8 +106,9 @@ const Login = () => {
           ? (window.location.href = "/")
           : (window.location.href = "/login");
         dispatch({ type: FETCH_SUCCESS });
-      } catch {
+      } catch (e) {
         dispatch({ type: ERROR_CATCHED });
+        console.log(e);
       }
     } else {
       try {
@@ -124,8 +125,10 @@ const Login = () => {
           ? (window.location.href = "/")
           : (window.location.href = "/login");
         dispatch({ type: FETCH_SUCCESS });
-      } catch {
+      } catch (e) {
         dispatch({ type: ERROR_CATCHED });
+        console.log(res);
+        console.log(e);
       }
     }
   };

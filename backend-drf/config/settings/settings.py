@@ -148,22 +148,49 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'AUTH_TOKEN_CLASSES': (
-        'rest_framework_simplejwt.tokens.AccessToken',
-    ),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
 }
 
 DJOSER = {
-    # カスタムユーザー用シリアライザー
+    "LOGIN_FIELD": "email",
+    "SEND_ACTIVATION_EMAIL": True,
+    "ACTIVATION_URL": "activate/{uid}/{token}",
+    "SEND_CONFIRMATION_EMAIL": True,
+    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
+    "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
+    "SET_USERNAME_RETYPE": True,
+    "SET_PASSWORD_RETYPE": True,
+    "USERNAME_RESET_CONFIRM_URL": "email/reset/confirm/{uid}/{token}",
+    "PASSWORD_RESET_CONFIRM_URL": "password/reset/confirm/{uid}/{token}",
     "SERIALIZERS": {
-        "user_create": "api.accounts.serializers.UserSerializer",
+        "user_create": "api.accounts.serializers.UserCreateSerializer",
         "user": "api.accounts.serializers.UserSerializer",
         "current_user": "api.accounts.serializers.UserSerializer",
     },
+    "EMAIL": {
+        "activation": "api.accounts.email.ActivationEmail",
+        "confirmation": "api.accounts.email.ConfirmationEmail",
+        "password_reset": "api.accounts.email.PasswordResetEmail",
+        "username_reset": "api.accounts.email.UsernameResetEmail",
+        "password_changed_confirmation": "api.accounts.email.PasswordChangedConfirmationEmail",
+        "username_changed_confirmation": "api.accounts.email.UsernameChangedConfirmationEmail",
+    },
 }
 
-COOKIE_TIME = 60 * 60 * 12
+
+# ローカル確認用
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# 本番環境用
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "xxx@gmail.com"
+EMAIL_HOST_PASSWORD = "xxx"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "xxx@video-up.com"
+
 
 LOGGING = {
     "version": 1,

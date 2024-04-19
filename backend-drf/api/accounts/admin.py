@@ -14,7 +14,7 @@ class UserAdmin(BaseUserAdmin):
     # Userモデルの表示で使用されるフィールド。
     # これらは、auth.User上の特定のフィールドを参照するベースUserAdmin上の定義を上書きします
     ordering = ["id"]
-    list_display = ["email", "username"]
+    list_display = ["email", "username", "is_active"]
     list_filter = ["is_staff", "is_active"]
     fieldsets = [
         (

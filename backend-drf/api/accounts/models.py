@@ -4,7 +4,6 @@ from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
     PermissionsMixin,
-
 )
 from django.utils import timezone
 from django.db import models
@@ -25,7 +24,9 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError("Email address is must")
 
-        user = self.model(username=username, email=self.normalize_email(email), **extra_fields)
+        user = self.model(
+            username=username, email=self.normalize_email(email), **extra_fields
+        )
         user.set_password(password)
         user.save(using=self._db)
 
@@ -46,11 +47,11 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
 
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    username = models.CharField('会社名', max_length=255, blank=True)
-    email = models.EmailField('メールアドレス', max_length=255, unique=True)
-    is_active = models.BooleanField('有効フラグ', default=True)
-    is_staff = models.BooleanField('管理サイトアクセス権限', default=False)
-    date_joined = models.DateTimeField('登録日時', default=timezone.now)
+    username = models.CharField("会社名", max_length=255, blank=True)
+    email = models.EmailField("メールアドレス", max_length=255, unique=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField("登録日時", default=timezone.now)
 
     objects = UserManager()
 
@@ -84,12 +85,12 @@ class Profile(models.Model):
     # )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    company_name = models.CharField('会社名', max_length=255, blank=True)
-    plan = models.IntegerField('プラン', choices=Plan.choices, default=1)
-    occupation = models.CharField('職業', max_length=50, blank=True)
-    address = models.CharField('住所', max_length=255, blank=True)
+    company_name = models.CharField("会社名", max_length=255, blank=True)
+    plan = models.IntegerField("プラン", choices=Plan.choices, default=1)
+    occupation = models.CharField("職業", max_length=50, blank=True)
+    address = models.CharField("住所", max_length=255, blank=True)
     phone = models.CharField("電話番号", max_length=255, blank=True)
-    age = models.CharField('年齢', max_length=255, blank=True)
+    age = models.CharField("年齢", max_length=255, blank=True)
     gendar = models.CharField("性別", max_length=2, choices=GENDER_CHOICES, blank=True)
 
     def __str__(self):
@@ -98,7 +99,7 @@ class Profile(models.Model):
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
-    """ User新規作成時にProfileのレコードも作成する """
+    """User新規作成時にProfileのレコードも作成する"""
     if created:
         Profile.objects.get_or_create(user=instance)
 
